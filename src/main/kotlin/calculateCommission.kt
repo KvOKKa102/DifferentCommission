@@ -1,10 +1,11 @@
-fun calculateCommission(cardtype: String, previousTransfersAmount: Int = 0, transferAmount: Int, transferType: String): Int {
-    val isMastercardOrMaestro = cardtype == "Mastercard" || cardtype == "Maestro"
-    val isVisaOrMir = cardtype == "Visa" || cardtype == "Mir"
+fun calculateCommission(cardType: String, previousTransfersAmount: Int = 0,
+                        transferAmount: Int, transferType: String): Int {
+    val isMastercardOrMaestro = cardType == "Mastercard" || cardType == "Maestro"
+    val isVisaOrMir = cardType == "Visa" || cardType == "Mir"
 
     if (transferType == "card") {
         val dailyLimit = 150_000
-        val monthlyLimit = 600_000 // максимальная сумма переводов по одной карте в месяц
+        val monthlyLimit = 600_000
 
         if (transferAmount > dailyLimit) {
             throw Exception("Сумма перевода превышает суточный лимит")
@@ -45,7 +46,9 @@ fun calculateCommission(cardtype: String, previousTransfersAmount: Int = 0, tran
 
         val commission = transferAmount * commissionPercent
         if (commission < minCommission) {
-            minCommission
+            return minCommission
+        } else {
+            return commission.toInt()
         }
     }
     return 0
